@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+    // 由于请求为异步任务 想要使请求按顺序发生 解决方法之一就是采用回调函数  但是会形成回调地狱
+    // 因此为了解决异步深层嵌套的问题 要借用promise的then属性来实现
+
+    // 基于promise发送ajax请求
+    // 封装请求函数
+    function queryData(url) {
+        var p = new Promise(function(resolve, reject) {
+            var xhr = new XMLHttpRequest()
+            xhr.open('get', url)
+            xhr.send(null)
+
+            // 判断 保证请求结果已返回 否则不继续执行代码
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState != 4) return
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    resolve(xhr.responseText)
+                } else {
+                    reject('服务器错误')
+                }
+            }
+        })
+        return p
+    }
+
+    // 调用函数发送请求
+    // 利用then属性 实现三个请求依次发送 且不会产生回调地狱 
+    queryData('http://localhost:3000/data')
+        .then(function(data) {
+            console.log(data);
+            // 里面可以重新创建一个promise实例对象
+            return new Promise(function(resolve, reject) {
+                setTimeout(function() {
+                    resolve(123);
+                }, 1000)
+            });
+        })
+        .then(function(data) {
+            console.log(data); // 123 返回重新创建的实例对象的值
+            return 'hello'
+        })
+        // 当前一次的返回值为数值时  会自动创建一个实例对象promise 并返回数值
+        .then(function(data) {
+            console.log(data);
+        })
+</script>
+
+</html>

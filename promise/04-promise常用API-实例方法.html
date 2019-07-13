@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+    function foo() {
+        var p = new Promise(function(resolve, reject) {
+            var flag = false
+            if (flag) {
+                resolve('hello')
+            } else {
+                reject('出错了')
+            }
+        })
+        return p
+    }
+
+    // 调用
+
+    // then() 得到异步任务正常结果
+    // catch() 获取异常信息
+    // finally() 成功与否都会执行(非标准)
+
+
+    // foo().then(function(data) {
+    //         console.log(data);
+    //     })
+    //     .catch(function(data) {
+    //         console.log(data);
+    //     })
+
+
+    foo()
+        .then(function(data) {
+            console.log(data);
+
+        }, function(data) {
+            console.log(data);
+        })
+        .finally(function() {
+            console.log('finished');
+
+        })
+</script>
+
+</html>

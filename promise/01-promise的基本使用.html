@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+    // 使用 new 来构建一个promise
+    var p = new Promise(function(resolve, reject) {
+        // 这里用于实现异步任务
+        setTimeout(function() {
+            var flag = false
+            if (flag) {
+                resolve('hello')
+            } else {
+                reject('出错了')
+            }
+        }, 1000)
+    })
+
+    //  5 Promise实例生成以后，可以用then方法指定resolved状态和reject状态的回调函数 
+    //  在then方法中，你也可以直接return数据而不是Promise对象，在后面的then中就可以接收到数据了
+    //  p.then(fn1,fn2)  fn1和fn2 分别指定resolved状态和reject状态的回调函数
+
+    p.then(function(data) {
+        console.log(data);
+    }, function(data) {
+        console.log(data);
+    })
+</script>
+
+</html>

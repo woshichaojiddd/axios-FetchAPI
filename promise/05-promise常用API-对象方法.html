@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+    // 由于请求为异步任务 想要使请求按顺序发生 解决方法之一就是采用回调函数  但是会形成回调地狱
+    // 因此为了解决异步深层嵌套的问题 要借用promise的then属性来实现
+
+    // 基于promise发送ajax请求
+    // 封装请求函数
+    function queryData(url) {
+        var p = new Promise(function(resolve, reject) {
+            var xhr = new XMLHttpRequest()
+            xhr.open('get', url)
+            xhr.send(null)
+
+            // 判断 保证请求结果已返回 否则不继续执行代码
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState != 4) return
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    resolve(xhr.responseText)
+                } else {
+                    reject('服务器错误')
+                }
+            }
+        })
+        return p
+    }
+
+    var p1 = queryData('http://localhost:3000/a1');
+    var p2 = queryData('http://localhost:3000/a2');
+    var p3 = queryData('http://localhost:3000/a3');
+
+    // Promise.all() 方法接受一个数组作为参数
+    // 数组中的对象（p1、p2、p3）均为promise实例
+    // 如果不是一个promise，该项会被用Promise.resolve转换为一个promise
+    // 它的状态由这三个promise实例决定
+    // 全部都成功才返回全部
+    Promise.all([p1, p2, p3]).then(function(res) {
+        console.log(res);
+    })
+
+    // Promise.race() 方法同样接受一个数组作参数
+    // 当p1, p2, p3中有一个实例的状态发生改变（变为fulfilled或rejected） p的状态就跟着改变
+    // 并把第一个改变状态的promise的返回值，传给p的回调函数
+    // 只要有一个成功 就返回一个
+    Promise.race([p1, p2, p3]).then(function(res) {
+        console.log(res);
+    })
+</script>
+
+</html>
