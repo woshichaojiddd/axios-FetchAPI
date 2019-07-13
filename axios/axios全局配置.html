@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script src="js/axios.js"></script>
+<script>
+    // 全局配置 axios.defaults
+
+    // 配置请求的基准URL地址
+    axios.defaults.baseURL = 'http://127.0.0.1:3000/'
+
+    // 配置请求头信息 为请求头增加mytoken属性
+    axios.defaults.headers['mytoken'] = 'hello'
+
+    // 配置超时
+    axios.defaults.timeout = 2500
+
+    //配置公共的 post 的 Content-Type
+    axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+
+    axios.get('axios-json').then(function(ret) {
+        console.log(ret.data.uname)
+    })
+</script>
+
+</html>
