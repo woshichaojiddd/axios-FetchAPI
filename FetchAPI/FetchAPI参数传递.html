@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+    // get请求参数传递
+
+    //1.
+    fetch('http://localhost:3000/books?id=3', {
+            method: 'get'
+        })
+        .then(function(data) {
+            return data.text()
+        })
+        .then(function(res) {
+            console.log(res);
+
+        })
+
+    // 2.
+    fetch('http://localhost:3000/books/33', {
+            method: 'get'
+        })
+        .then(function(data) {
+            return data.text()
+        })
+        .then(function(res) {
+            console.log(res);
+
+        })
+
+    // delete 参数传递 通常需要传递id 及内容参数
+    fetch('http://localhost:3000/books/33', {
+            method: 'delete'
+        })
+        .then(function(data) {
+            return data.text()
+        })
+        .then(function(res) {
+            console.log(res);
+
+        })
+
+    // post 传递参数 要设置请求头
+
+    // 1. 直接以字符串形式传递参数
+    fetch('http://localhost:3000/books', {
+            method: 'post',
+            body: 'uname=lisi&pwd=123',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+        .then(function(data) {
+            return data.text()
+        })
+        .then(function(res) {
+            console.log(res);
+
+        })
+
+    // 2. 获得的数据是对象形式  转化为字符串形式传递
+    fetch('http://localhost:3000/books', {
+            method: 'post',
+            body: JSON.stringify({
+                uname: 'zs',
+                pwd: '456'
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(function(data) {
+            return data.text()
+        })
+        .then(function(res) {
+            console.log(res);
+
+        })
+
+    // put传递参数 通常需要传递id 及内容参数
+    fetch('http://localhost:3000/books/44', {
+            method: 'put',
+            body: JSON.stringify({
+                uname: 'zs',
+                pwd: '456'
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(function(data) {
+            return data.text()
+        })
+        .then(function(res) {
+            console.log(res);
+
+        })
+</script>
+
+</html>
